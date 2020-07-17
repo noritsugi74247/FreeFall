@@ -1,0 +1,208 @@
+#include "Player.h"
+#include "mylib.h"
+#include "user.h"
+#include "sprite_data.h"
+using namespace mylib;
+
+//******************************************************************************
+//
+//      プレイヤー移動処理
+//
+//******************************************************************************
+//------< プレイヤーのアニメデータ >--------------------------------------------
+
+
+const float stick = 0.125f;
+//--------------------------------
+//  Y方向移動
+//--------------------------------
+void Player::moveY(OBJ2D* obj)
+{
+    using namespace input;
+
+
+    if (STATE(0) & PAD_UP || getPadState(0)->leftY < -stick)
+    {
+        obj->speed.y -= KASOKU;
+
+
+
+
+
+    }
+
+    else if (STATE(0) & PAD_DOWN || getPadState(0)->leftY > stick)
+    { // 右だけが押されている場合
+        obj->speed.y += KASOKU;
+
+    }
+    // 通常時
+          // 速度に加速度を加える
+
+    else
+    {
+
+
+        obj->speed.y = 0.0f;
+    }
+
+    // y方向の抗力の計算
+    //obj->speed.y += Game::instance()->bgManager()->calcResistance(obj, obj->speed.y);
+
+
+    float maxSpeed = SPEED_MAX_Y;
+
+    obj->speed.y = (std::max)(obj->speed.y, -maxSpeed);
+    obj->speed.y = (std::min)(obj->speed.y, maxSpeed);
+    obj->speed.y = clamp(obj->speed.y, -maxSpeed, maxSpeed);
+
+
+    // 位置更新
+    float oldY = obj->position.y;           // 移動前の位置を保持
+    obj->position.y += obj->speed.y;
+    float deltaY = obj->position.y - oldY;  // 移動後の位置から移動前の位置を引く
+
+    obj->onGround = false;
+
+
+
+
+
+}
+
+//--------------------------------
+//  X方向移動
+//--------------------------------
+void Player::moveX(OBJ2D* obj)
+{
+    using namespace input;
+
+    // 左右入力の取り出し
+
+    if (STATE(0) & PAD_LEFT || getPadState(0)->leftX < -stick)
+    {
+        obj->speed.x -= KASOKU;
+
+
+
+
+
+    }
+
+    else if (STATE(0) & PAD_RIGHT || getPadState(0)->leftX > stick)
+    { // 右だけが押されている場合
+        obj->speed.x += KASOKU;
+
+    }
+
+    else
+    {
+
+
+        obj->speed.x = 0.0f;
+    }
+
+    float maxSpeedx = SPEED_MAX_Y;
+    // X方向移動
+    obj->speed.x = (std::max)(obj->speed.x, -maxSpeedx);
+    obj->speed.x = (std::min)(obj->speed.x, maxSpeedx);
+    obj->speed.x = clamp(obj->speed.x, -maxSpeedx, maxSpeedx);
+
+
+    float oldX = obj->position.x;
+    obj->position.x += obj->speed.x;
+    float deltaX = obj->position.x - oldX;
+}
+
+//--------------------------------
+//  プレイヤージャンプ処理
+//--------------------------------
+
+//--------------------------------
+//  プレイヤーエリア制限
+//--------------------------------
+void Player::areaCheck(OBJ2D* obj)
+{
+    float oldX = obj->position.x;   // x座標を一時的に保存
+    obj->position.x = clamp(obj->position.x, obj->size.x, system::SCREEN_WIDTH - obj->size.x);
+    if (oldX != obj->position.x)
+    {
+        obj->speed.x = 0;  // 保存した値と違えば画面端にあたっている
+    }
+    float oldY = obj->position.y;   // y座標を一時的に保存
+    obj->position.y = clamp(obj->position.y, obj->size.y, system::SCREEN_HEIGHT);
+    if (oldY != obj->position.y)    // 保存した値と違えば画面端にあたっている
+    {
+        obj->speed.y = 0;           // y方向の速度を0にする
+
+    }
+}
+
+//--------------------------------
+//  プレイヤーのはしご処理
+//--------------------------------
+
+void playerJumpSet(OBJ2D* obj)
+{
+    obj->speed.y = -15.0f;
+    obj->jumpTimer = 16;
+}
+
+//--------------------------------
+//  プレイヤー通常時の行動
+//--------------------------------
+void Player::move(OBJ2D* obj)
+{
+    using namespace input;  // 関数内で入力処理を行うときに記述する
+
+
+
+    switch (obj->state)
+    {
+    case 0:
+        //////// 初期設定 ////////
+
+        // アニメの初期設定
+
+        obj->data = &sprPlayer_idle0;
+        obj->xFlip = true;                                 // サイズ設定（足元が中心であるため、幅はあたりとして使用する半分・縦はそのままが扱いやすい）
+        obj->size = VECTOR2(48 / 2, 96 - 2);
+        obj->scale.x = -1;
+        //obj->isDrawHitRect = true;
+        obj->judgeFlag = true;
+     
+        obj->state++;
+
+        break;
+
+    case 1:
+        //////// 通常時 ////////
+
+
+        // プレイヤー縦方向の移動処理
+
+
+        moveY(obj);
+
+        // プレイヤー横方向の移動処理
+        moveX(obj);
+
+
+        // プレイヤーのエリアチェック
+        areaCheck(obj);
+
+        break;
+    }
+
+    // アニメ更新
+
+}
+
+//--------------------------------
+//  消去
+//--------------------------------
+void ErasePlayer::erase(OBJ2D* obj)
+{
+
+    obj->clear();           // OBJ2Dを消去する
+}
