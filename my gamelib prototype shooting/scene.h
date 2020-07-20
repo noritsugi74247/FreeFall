@@ -8,17 +8,17 @@ protected:
 
 
 
-    int  timer;          // タイマー
-    int  start_timer;
-    int  mission_timer;
-    bool tutorial;
-    Scene* nextScene;   // 次のシーン
+    int  timer=0;          // タイマー
+    int  start_timer=0;
+    int  mission_timer=0;
+    bool tutorial=false;
+    Scene* nextScene=nullptr;   // 次のシーン
 
 public:
-    float fade;
-    float wide;
-    float posX;
-    int  state;          // 状態
+    float fade=0.0f;
+    float wide=0.0f;
+    float posX=0.0f;
+    int  state=0;          // 状態
     const float fadein = 0.12f;
     const float wide_dis = 35.0f;
 

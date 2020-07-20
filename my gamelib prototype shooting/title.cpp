@@ -22,7 +22,6 @@ void Title::init() {
     fade = 5.0;
     wide = 0;
     posX = 0;
-
     audio_init();
 }
 
@@ -40,26 +39,31 @@ void Title::update()
         timer = 0;                                  // タイマーを初期化
         mylib::setBlendMode(blender::BS_ALPHA);   // 通常のアルファ処理
                                      // 初期化処理の終了
-
+     
        /* title_spr_road();*/
         state++;
-        music::play(0, true);
+       
+      /*  music::play(0, true);*/
         //Game::instance()->set_tutorial(1);
-
+       
         break;
     case 1:
-        fade -= 1.0f / 10.0;
+        fade -= 1.0f / (float)10.0;
 
         if (fade <= 0)
         {
+         
+            
             fade = 0;
             state++;
+          
         }
+     
         break;
     case 2:
         //////// 通常時の処理 ////////
 
-
+     
 
         timer++;                            // タイマーを足す
 
@@ -82,6 +86,7 @@ void Title::update()
 
 
     }
+   
 }
 
 //--------------------------------

@@ -30,11 +30,12 @@ namespace mylib
             { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 4 * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
         };
         UINT numElements = ARRAYSIZE(layout);
-
+        
         //	頂点シェーダーの読み込み
         create_vs_from_cso(device, "primitive2d_vs.cso", &vertexShader, &inputLayout, layout, ARRAYSIZE(layout));
+       
         create_ps_from_cso(device, "primitive2d_ps.cso", &pixelShader);
-
+      
         //	ラスタライザステートの設定
         D3D11_RASTERIZER_DESC rsDesc = {};
         rsDesc.FillMode = D3D11_FILL_SOLID;//
@@ -52,7 +53,7 @@ namespace mylib
             assert(!"ラスタライザステートの作成に失敗(Primitive)");
             return;
         }
-
+       
         D3D11_DEPTH_STENCIL_DESC dsDesc;
         dsDesc.DepthEnable = FALSE;
         dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
@@ -73,6 +74,7 @@ namespace mylib
             assert(!"デプスステンシルステートの作成に失敗(Primitive)");
             return;
         }
+       
     }
 
     //--------------------------------------------------------------
@@ -85,6 +87,7 @@ namespace mylib
         safe_release(buffer);
         safe_release(vertexShader);
         safe_release(pixelShader);
+        safe_release(inputLayout);
     }
 
     //--------------------------------------------------------------
@@ -168,7 +171,7 @@ namespace mylib
         float cy = h * 0.5f;
         float x = (from.x + to.x) * 0.5f;
         float y = (from.y + to.y) * 0.5f;
-        float angle = atan2(to.y - from.y, to.x - from.x);
+        float angle = (float)atan2((double)to.y - (double)from.y, (double)to.x - (double)from.x);
 
         rect(context, VECTOR2(x, y), VECTOR2(w, h), VECTOR2(cx, cy), angle, color);
     }

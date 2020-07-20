@@ -125,7 +125,8 @@ void Game::draw()
     // 画面クリア
     mylib::clear(VECTOR4(1, 0, 0, 1));
     // プレイヤーの描画
-    
+ 
+   
     playerManager()->draw();
 
     
@@ -145,8 +146,9 @@ void Game::uninit()
    
     // テクスチャの解放
     texture::releaseAll();
+    safe_delete(playerManager_);
     // 音楽のクリア
-    /*music::clear();*/
+    music::clear();
 }
 
 float Sine::easeIn(float t, float b, float c, float d) {

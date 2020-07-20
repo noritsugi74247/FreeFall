@@ -6,25 +6,25 @@ Scene* Scene::execute()
 
     // 初期化処理
     init();
-
+   
     // ゲームループ
     while (mylib::gameLoop(false))    // falseをtrueにするとタイトルバーにフレームレート表示
     {
-        // 入力処理
+       // // 入力処理
         input::update();
 
 
-        // 更新処理
+       // // 更新処理
         update();
-
-        // 描画処理
+     
+       // // 描画処理
         draw();
+     
+       // // デバッグ文字列の描画
+       ///* debug::display(1, 0, 0, 1, 1);*/
+       // //debug::setString("GP2_03");
 
-        // デバッグ文字列の描画
-       /* debug::display(1, 0, 0, 1, 1);*/
-        //debug::setString("GP2_03");
-
-        // 画面フリップ
+       // // 画面フリップ
         mylib::present(1, 0);
 
         // 終了チェック
@@ -33,7 +33,7 @@ Scene* Scene::execute()
 
     // 終了処理
     uninit();
-
+   
     return nextScene;	// 次のシーンを返す
 }
 

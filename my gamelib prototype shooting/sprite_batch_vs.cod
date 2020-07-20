@@ -45,7 +45,7 @@
     dcl_texcoord6 v6  // texcoord_transform<0,1,2,3>
     dcl_texcoord7 v7  // color<0,1,2,3>
 
-#line 6 "D:\サークル\my gamelib prototype shooting\sprite_batch_vs.hlsl"
+#line 6 "C:\Users\2190096\Desktop\my gamelib prototype shooting\sprite_batch_vs.hlsl"
     mov r0, v0  // position<0,1,2,3>
     dp4 r1.x, r0, v2  // ::vout<0>
     dp4 r1.y, r0, v3  // ::vout<1>
@@ -93,7 +93,7 @@ dcl_temps 3
 //   o1.x <- <main return value>.texcoord.x; o1.y <- <main return value>.texcoord.y; 
 //   o0.x <- <main return value>.sv_position.x; o0.y <- <main return value>.sv_position.y; o0.z <- <main return value>.sv_position.z; o0.w <- <main return value>.sv_position.w
 //
-#line 6 "D:\サークル\my gamelib prototype shooting\sprite_batch_vs.hlsl"
+#line 6 "C:\Users\2190096\Desktop\my gamelib prototype shooting\sprite_batch_vs.hlsl"
 dp4 r0.x, v0.xyzw, v2.xyzw  // r0.x <- vout.sv_position.x
 dp4 r0.y, v0.xyzw, v3.xyzw  // r0.y <- vout.sv_position.y
 dp4 r0.z, v0.xyzw, v4.xyzw  // r0.z <- vout.sv_position.z

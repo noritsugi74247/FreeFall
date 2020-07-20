@@ -14,16 +14,16 @@ namespace mylib
     class Primitive
     {
 
-        ID3D11VertexShader* vertexShader;
-        ID3D11PixelShader* pixelShader;
-        ID3D11InputLayout* inputLayout;
-        ID3D11Buffer* buffer;
-        ID3D11RasterizerState* rasterizerState;
-        ID3D11DepthStencilState* depthStencilState;
+        ID3D11VertexShader* vertexShader=nullptr;
+        ID3D11PixelShader* pixelShader = nullptr;
+        ID3D11InputLayout* inputLayout = nullptr;
+        ID3D11Buffer* buffer = nullptr;
+        ID3D11RasterizerState* rasterizerState = nullptr;
+        ID3D11DepthStencilState* depthStencilState = nullptr;
 
-        ID3D11Device* device;
+        ID3D11Device* device = nullptr;
     public:
-        Primitive(ID3D11Device*);
+        Primitive(ID3D11Device* device);
         ~Primitive();
 
         //--------------------------------------------------------------

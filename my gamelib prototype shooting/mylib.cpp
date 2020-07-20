@@ -29,8 +29,8 @@ namespace mylib
         // DirectX11関連
         // ウインドウ関連
         HWND hwnd;  // ウインドウハンドル
-        D3D_DRIVER_TYPE   g_driverType = D3D_DRIVER_TYPE_NULL;
-        D3D_FEATURE_LEVEL  g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+        D3D_DRIVER_TYPE   g_driverType = D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_NULL;
+        D3D_FEATURE_LEVEL  g_featureLevel = D3D_FEATURE_LEVEL::D3D_FEATURE_LEVEL_11_0;
         // DirectX11関連
         //ID3D11Device* device;
         //ID3D11DeviceContext* context;
@@ -83,23 +83,24 @@ namespace mylib
 
         // ウインドウの初期設定
         m.hwnd = window::init(caption, width, height);
-
+       
         // DirectX11の初期化
         DirectX11::init(m.hwnd, width, height, isFullscreen);
-
+   
         // フレームレートの設定
      /*   m.hrTimer.setFrameRate(frameRate);*/
 
         // ビューの設定
         m.viewSettings = new ViewSettings;
         view::init();
+       
     }
 
     void uninit()
     {
         // DirectX11の終了処理
         DirectX11::uninit();
-
+        safe_delete(m.viewSettings);
         // ウインドウの終了処理
         window::uninit();
     }
@@ -114,7 +115,7 @@ namespace mylib
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-
+        return true;
         VECTOR2 lt = view::getLeftTop();
         VECTOR2 ct = view::getCenter();
         VECTOR2 lb = view::getLeftBottom();
@@ -249,7 +250,8 @@ namespace mylib
             }
 
             if (FAILED(hr))
-                return false;
+                return hr;
+
             // Create Render Target View
             D3D11_TEXTURE2D_DESC back_buffer_desc;
             {
@@ -307,12 +309,15 @@ namespace mylib
 
 
             m.Blender = new blender(m.device.Get());
+            
             m.primitive = new Primitive(m.device.Get());
+           
             m.textureManager = new TextureManager;
-
+           
             m.inputManager = new InputManager;
-
+          
             m.dxtkAudio = new audio::DXTKAudio;
+            
             /*	sprites[0] = std::make_unique<sprite>(device.Get());*/
             /*	sprites[0] = std::make_unique<sprite>(device.Get(), L"player-sprites.png");*/
                 //for (auto& p : sprites)
@@ -328,29 +333,40 @@ namespace mylib
 // setup imgui
             IMGUI_CHECKVERSION();
             ImGui::CreateContext();
+           
             ImGuiIO& io = ImGui::GetIO();
+            
             //日本語用フォントの設定
             io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryo.ttc", 13.0f, nullptr, glyphRangesJapanese);
             // setup platform/renderer
             ImGui_ImplWin32_Init(hwnd);
             ImGui_ImplDX11_Init(m.device.Get(), m.devicecontext.Get());
             ImGui::StyleColorsDark();
+            
+         
 #endif // USE_IMGUI
 
 
 
-            return true;
+            return hr;
         }
 
         void uninit()
         {
-            m.swapchain->SetFullscreenState(false, nullptr);
+            if(m.swapchain) m.swapchain->SetFullscreenState(false, nullptr);
 
             safe_delete(m.viewSettings);
             safe_delete(m.dxtkAudio);
-
+            safe_delete(m.Blender);
+            safe_delete(m.primitive);
             safe_delete(m.inputManager);
-            safe_delete(m.textureManager);
+            safe_delete(m.textureManager);   
+            
+#ifdef USE_IMGUI
+            ImGui_ImplDX11_Shutdown();
+            ImGui_ImplWin32_Shutdown();
+            ImGui::DestroyContext();
+#endif
         }
     }
 
