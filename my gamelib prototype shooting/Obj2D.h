@@ -68,10 +68,11 @@ public:
     VECTOR2                 speed;              // 瞬間の移動量ベクトル
     int                     state;              // ステート
     int                     timer;              // タイマー
+    int               damageCount;              // ダメージカウント
 
     int                     param;              // 汎用パラメータ
     int                     jumpTimer;          // 長押しジャンプタイマー
-
+    int                     flags;              // 各種フラグ用(使い方はplayer.hのplayerクラスを参照)
     int                     iWork[16];          // 汎用（使い方は自由）
     float                   fWork[16];          // 汎用（使い方は自由）
 

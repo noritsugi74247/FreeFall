@@ -35,6 +35,7 @@ void OBJ2D::clear()
     speed = VECTOR2(0, 0);
     state = 0;
     timer = 0;
+    damageCount = 0;
 
     param = 0;
     jumpTimer = 0;
@@ -64,7 +65,7 @@ void OBJ2D::draw()
 {
     if (data)                                       // OBJ2Dのdataメンバにスプライトデータがあれば
     {
-        data->draw(position, scale, angle, color);  // dataのdrawメソッドでスプライトを描画する
+        data->draw(position - Game::instance()->bgManager()->getScrollPos(), scale, angle, color);  // dataのdrawメソッドでスプライトを描画する
     }
 }
 
