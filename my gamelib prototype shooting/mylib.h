@@ -177,8 +177,8 @@ namespace mylib
 
     namespace system
     {
-        static const float SCREEN_WIDTH = 1920.f;  // スクリーンの幅
-        static const float SCREEN_HEIGHT = 1080.f; // スクリーンの高さ
+        static const float SCREEN_WIDTH = 640.f;  // スクリーンの幅
+        static const float SCREEN_HEIGHT = 480.f; // スクリーンの高さ
 
         static const int TEXTURE_NUM = 256U;                   // テクスチャの最大枚数
         static const int DEBUG_INSTANCE_NUM = 8192U;           // デバッグ文字の最大表示数
