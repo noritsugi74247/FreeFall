@@ -2,8 +2,10 @@
 #define	INCLUDED_GAME
 
 #include "Player.h"
+#include "block.h"
 #include "scene.h"
-
+#include "map.h"
+//#include <memory>
 //==============================================================================
 //
 //      Gameクラス
@@ -57,14 +59,15 @@ public:
     // ゲッターは後ろに_をつけない
  /*   Player_manager* PL_manager() { return PL_manager_; }*/
     PlayerManager* playerManager() { return playerManager_; }
-
+    BlockManager* blockManager() { return blockManager_; }
+    MapChip* bgManager() { return bgManager_.get(); }
 private:
 
 
     // メンバ変数は後ろに_をつける
     PlayerManager* playerManager_;
-   
-
+    BlockManager* blockManager_;
+    std::unique_ptr<MapChip> bgManager_;
     static Game instance_;
 };
 

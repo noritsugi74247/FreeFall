@@ -25,6 +25,7 @@ public:
     static constexpr float KASOKU = 0.5f;         // 横方向・縦方向の加速度
     static constexpr float SPEED_MAX_X = 4.0f;         // 横方向の最大速度
     static constexpr float SPEED_MAX_Y = 8.0f;         // 最大の落下速度
+    static constexpr float BOOST_MAX   = 16.0f;        // 加速時の最大スピード
     static constexpr float SPEED_JUMP_Y = -6.0f;        // ジャンプ中の上昇スピード
 
     static constexpr float HASHIGO_KASOKU = 0.2f;       // はしご昇降中の加速度
@@ -32,12 +33,29 @@ public:
     static constexpr float HASHIGO_SPEED_MAX_Y = 2.0f;  // 最大の落下速度
 
     void move(OBJ2D* obj);
+    
+    //int flags; // ブースト用
+
+    /**************************************
+    * 弱ブースト                   : 0x01 *
+    * 中ブースト                   : 0x02 *
+    * 強ブースト                   : 0x04 *
+    * ブーストの圏内に入っているか : 0x08 *
+    **************************************/
 
     static Player* getInstance()
     {
         static Player instance;
         return	&instance;
     }
+
+    enum class BOOSTER : int
+    {
+        LITTLE_BOOST = 1,
+        MIDDLE_BOOST = 1 << 1,
+        STRONG_BOOST = 1 << 2,
+        INSIDE_BOOST = 1 << 3,
+    };
 
 
 private:
@@ -46,7 +64,7 @@ private:
     void moveY(OBJ2D*);
     void moveX(OBJ2D*);
     void areaCheck(OBJ2D*);
-    ;
+    void booster(OBJ2D*);
 };
 
 // 移動アルゴリズムの実体
