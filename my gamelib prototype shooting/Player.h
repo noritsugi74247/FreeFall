@@ -60,11 +60,14 @@ public:
 
 private:
 
+    float avoidance_timer;      //回避ブーストのタイマー
+
     //TODO_02
     void moveY(OBJ2D*);
     void moveX(OBJ2D*);
     void areaCheck(OBJ2D*);
     void booster(OBJ2D*);
+    void avoidance(OBJ2D*);
 };
 
 // 移動アルゴリズムの実体

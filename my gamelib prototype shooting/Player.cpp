@@ -82,47 +82,131 @@ void Player::moveY(OBJ2D* obj)
 }
 
 //--------------------------------
+//  回避時横ブースト
+//--------------------------------
+void Player::avoidance(OBJ2D* obj)
+{
+    using namespace input;
+
+    if (TRG(0) & PAD_TRG3)
+    {
+        // まずブースト範囲内のフラグが立ってたら実行しなくていいのでリターンする
+        if (obj->flags & static_cast<int>(Player::BOOSTER::INSIDE_BOOST))
+        {
+             return;
+        }
+        // ブースト範囲内のフラグが立ってなかったら、
+        // 残ったフラグに応じてブースト（加速）させる
+
+        avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
+
+           switch (obj->flags)
+        {
+            // 残ったフラグが...ならスピードを設定する。
+            case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) :
+                obj->speed.x *= 2.0f;
+                break;
+                case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) :
+                    obj->speed.x *= 3.0f;
+                    break;
+                    case static_cast<int>(Player::BOOSTER::STRONG_BOOST) :
+                        obj->speed.x *= 4.0f;
+                        break;
+                    default:
+                        break;
+        }
+        // switch文が終わったら、プレイヤーのスピードは設定済みなので、全てのフラグを初期化しておく。
+        // INSIDE_BOOSTが立ってなかったら、という条件式なので、
+        // INSIDE_BOOSTまで消さなくてもいい(立ってないとわかっているフラグを消す必要がない)。
+        // なので消すのはLITTLE_BOOST、MIDDLE_BOOST、STRONG_BOOSTの3つ。
+        //if (!(obj->flags & static_cast<int>(Player::BOOSTER::INSIDE_BOOST)))
+        //{
+        //    for (int i = 0; i < 2; i++)
+        //    {
+        //        obj->flags &= ~static_cast<int>(1 << i);
+        //    }
+        //}
+    }
+    avoidance_timer--;
+    if (avoidance_timer == 0)
+    {
+        obj->speed.x = SPEED_MAX_X;
+    }
+
+    if (avoidance_timer < 0)
+    {
+        avoidance_timer = 0;
+    }
+}
+
+//--------------------------------
 //  X方向移動
 //--------------------------------
 void Player::moveX(OBJ2D* obj)
 {
     using namespace input;
 
-    // 左右入力の取り出し
+    /*---------------------------------左移動-----------------------------------*/
 
     if (STATE(0) & PAD_LEFT || getPadState(0)->leftX < -stick)
     {
-        obj->speed.x -= KASOKU;
+        //avoidance(obj);
 
+        obj->position.x -= obj->speed.x;
 
-
-
-
+        obj->scale.x = 1.0f;            //プレイヤーの向き
     }
 
-    else if (STATE(0) & PAD_RIGHT || getPadState(0)->leftX > stick)
-    { // 右だけが押されている場合
-        obj->speed.x += KASOKU;
+    /*--------------------------------------------------------------------------*/
 
-    }
+    /*---------------------------------右移動-----------------------------------*/
 
-    else
+    if (STATE(0) & PAD_RIGHT || getPadState(0)->leftX > stick)
     {
+        //avoidance(obj);
 
+        obj->position.x += obj->speed.x;
 
-        obj->speed.x = 0.0f;
+        obj->scale.x = -1.0f;            //プレイヤーの向き
     }
 
-    float maxSpeedx = SPEED_MAX_Y;
-    // X方向移動
-    obj->speed.x = (std::max)(obj->speed.x, -maxSpeedx);
-    obj->speed.x = (std::min)(obj->speed.x, maxSpeedx);
-    obj->speed.x = clamp(obj->speed.x, -maxSpeedx, maxSpeedx);
+    /*--------------------------------------------------------------------------*/
 
-
-    float oldX = obj->position.x;
-    obj->position.x += obj->speed.x;
-    float deltaX = obj->position.x - oldX;
+ //   // 左右入力の取り出し
+ //
+ //   if (STATE(0) & PAD_LEFT || getPadState(0)->leftX < -stick)
+ //   {
+ //       obj->speed.x -= KASOKU;
+ //
+ //
+ //
+ //
+ //
+ //   }
+ //
+ //   else if (STATE(0) & PAD_RIGHT || getPadState(0)->leftX > stick)
+ //   { // 右だけが押されている場合
+ //       obj->speed.x += KASOKU;
+ //
+ //   }
+ //
+ //   else
+ //   {
+ //
+ //
+ //       obj->speed.x = 0.0f;
+ //   }
+ //
+ //   float maxSpeedx = SPEED_MAX_Y;
+ //   // X方向移動
+ //   obj->speed.x = (std::max)(obj->speed.x, -maxSpeedx);
+ //   obj->speed.x = (std::min)(obj->speed.x, maxSpeedx);
+ //   obj->speed.x = clamp(obj->speed.x, -maxSpeedx, maxSpeedx);
+ //
+ //
+ //   float oldX = obj->position.x;
+ //   obj->position.x += obj->speed.x;
+ //   float deltaX = obj->position.x - oldX;
 }
 
 //--------------------------------
@@ -221,6 +305,8 @@ void Player::move(OBJ2D* obj)
         obj->flags = 0;
         //obj->isDrawHitRect = true;
         obj->judgeFlag = true;
+        obj->speed.x = SPEED_MAX_X;
+        avoidance_timer = 0;
      
         obj->state++;
 
@@ -228,9 +314,11 @@ void Player::move(OBJ2D* obj)
 
     case 1:
         //////// 通常時 ////////
-
+        
 
         booster(obj);
+
+        avoidance(obj);
        
         // プレイヤー縦方向の移動処理
 

@@ -19,7 +19,7 @@ sprite* sprEnemy;
 // 2D画像ロードデータ
 LoadTexture loadTexture[] = {
     { TEXNO::PLAYER,    L"./Data/Images/hamums.png",    1U },// プレイヤー
-    { TEXNO::CHIP,    L"./Data/Maps/mapchip_temp.png",540U },
+    { TEXNO::CHIP,    L"./Data/Maps/map.png",540U },
     { TEXNO::DUMMY,    L"./Data/Images/SICアセット終/枠.png",500U},
     { -1, nullptr }	// 終了フラグ
 };

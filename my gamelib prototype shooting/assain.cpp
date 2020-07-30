@@ -25,12 +25,12 @@ namespace mylib
         { PAD_LEFT     , Keyboard::A },           // 'A'
         { PAD_RIGHT    , Keyboard::D },           // 'D'
 
-        //{ PAD_TRG3     , Keyboard::Space },       // VK_SPACE
+        { PAD_TRG3     , Keyboard::Space },       // VK_SPACE
 
         { PAD_START     , Keyboard::Enter },         // VK_RETURN
         { PAD_TRG1      , Keyboard::Z },             // 'Z'
         { PAD_TRG2      , Keyboard::X },             // 'X'
-        { PAD_TRG3      , Keyboard::C },             // 'C'
+        //{ PAD_TRG3      , Keyboard::C },             // 'C'
         { PAD_TRG4      , 'V' },                     // 'V'
 
         { PAD_L1        , Keyboard::A },             // VK_LCONTROL
