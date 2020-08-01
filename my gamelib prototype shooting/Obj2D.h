@@ -76,6 +76,8 @@ public:
     int                     iWork[16];          // 汎用（使い方は自由）
     float                   fWork[16];          // 汎用（使い方は自由）
 
+    static int              damage;
+
     bool                    hashigoFlag;        // はしごフラグ
     bool                    drawHitRectFlag;    // あたり判定描画フラグ
     bool                    judgeFlag;          // あたり判定の有無（true:有り / false:無し）

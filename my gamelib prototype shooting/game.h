@@ -5,6 +5,7 @@
 #include "block.h"
 #include "scene.h"
 #include "map.h"
+#include "Wall.h"
 //#include <memory>
 //==============================================================================
 //
@@ -61,12 +62,14 @@ public:
     PlayerManager* playerManager() { return playerManager_; }
     BlockManager* blockManager() { return blockManager_; }
     MapChip* bgManager() { return bgManager_.get(); }
+    WallManager* wallManager() { return wallManager_; }
 private:
 
 
     // ƒƒ“ƒo•Ï”‚ÍŒã‚ë‚É_‚ğ‚Â‚¯‚é
     PlayerManager* playerManager_;
     BlockManager* blockManager_;
+    WallManager* wallManager_;
     std::unique_ptr<MapChip> bgManager_;
     static Game instance_;
 };

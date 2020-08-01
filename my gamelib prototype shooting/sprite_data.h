@@ -10,11 +10,17 @@ enum TEXNO
     PLAYER,
     CHIP,
     DUMMY,
+    WALL
 };
 
 extern mylib::LoadTexture loadTexture[];
 
 extern mylib::SpriteData sprPlayer_idle0;
+
+extern mylib::SpriteData sprWall;
+
+extern sprite* sprTitle;
+extern sprite* BG;
 
 extern mylib::SpriteData sprterrain_block0;
 extern mylib::SpriteData sprterrain_block1;
