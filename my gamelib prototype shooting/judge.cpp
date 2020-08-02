@@ -40,10 +40,11 @@ void judge()
 
 		// 強ブースト用当たり判定
 		mylib::fRECT strongrect =
-		{ block.hitRect.left,
-		  block.hitRect.top - CHIP_SIZE,
-		  block.hitRect.right,
-		  block.hitRect.bottom - CHIP_SIZE};
+		{ block.hitRect.left, //- rule.left,
+		  block.hitRect.top - CHIP_SIZE,// rule.top ,
+		  block.hitRect.right, // - rule.right ,
+		  block.hitRect.bottom - CHIP_SIZE // rule.bottom
+		};
 
 		// 中ブースト用当たり判定
 		mylib::fRECT middlerect =
@@ -119,6 +120,7 @@ void judge()
 			{
 				pl->flags &= ~(1 << i);
 			}
+			damaged = true;
 			block.state++;
 		}
 	}

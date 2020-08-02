@@ -9,8 +9,7 @@ using namespace mylib;
 //      プレイヤー移動処理
 //
 //******************************************************************************
-//------< プレイヤーのアニメデータ >--------------------------------------------
-
+extern bool damaged;
 
 const float stick = 0.125f;
 //--------------------------------
@@ -104,16 +103,16 @@ void Player::avoidance(OBJ2D* obj)
         {
             // 残ったフラグが...ならスピードを設定する。
             case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
-                obj->speed.x = 15.0f;
-                break;
-                case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
-                    obj->speed.x = 15.0f;
-                    break;
-                    case static_cast<int>(Player::BOOSTER::STRONG_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
-                        obj->speed.x = 15.0f;
-                        break;
-                    default:
-                        break;
+              obj->speed.x = 15.0f;
+              break;
+            case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
+              obj->speed.x = 15.0f;
+              break;
+            case static_cast<int>(Player::BOOSTER::STRONG_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
+              obj->speed.x = 15.0f;
+              break;
+            default:
+              break;
         }
         // switch文が終わったら、プレイヤーのスピードは設定済みなので、全てのフラグを初期化しておく。
         // INSIDE_BOOSTが立ってなかったら、という条件式なので、
