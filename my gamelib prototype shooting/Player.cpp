@@ -88,29 +88,29 @@ void Player::avoidance(OBJ2D* obj)
 {
     using namespace input;
 
-    if (TRG(0) & PAD_TRG3)
+    if (GetAsyncKeyState(VK_SPACE) & 1 && avoidance_timer == 0)
     {
         // まずブースト範囲内のフラグが立ってたら実行しなくていいのでリターンする
-        if (obj->flags & static_cast<int>(Player::BOOSTER::INSIDE_BOOST))
-        {
-             return;
-        }
+        //if (obj->flags & static_cast<int>(Player::BOOSTER::INSIDE_BOOST))
+        //{
+        //     return;
+        //}
         // ブースト範囲内のフラグが立ってなかったら、
         // 残ったフラグに応じてブースト（加速）させる
 
         avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
 
-           switch (obj->flags)
+        switch (obj->flags)
         {
             // 残ったフラグが...ならスピードを設定する。
-            case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) :
-                obj->speed.x *= 2.0f;
+            case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
+                obj->speed.x = 15.0f;
                 break;
-                case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) :
-                    obj->speed.x *= 3.0f;
+                case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
+                    obj->speed.x = 15.0f;
                     break;
-                    case static_cast<int>(Player::BOOSTER::STRONG_BOOST) :
-                        obj->speed.x *= 4.0f;
+                    case static_cast<int>(Player::BOOSTER::STRONG_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
+                        obj->speed.x = 15.0f;
                         break;
                     default:
                         break;
@@ -127,16 +127,7 @@ void Player::avoidance(OBJ2D* obj)
         //    }
         //}
     }
-    avoidance_timer--;
-    if (avoidance_timer == 0)
-    {
-        obj->speed.x = SPEED_MAX_X;
-    }
-
-    if (avoidance_timer < 0)
-    {
-        avoidance_timer = 0;
-    }
+    
 }
 
 //--------------------------------
@@ -314,11 +305,20 @@ void Player::move(OBJ2D* obj)
 
     case 1:
         //////// 通常時 ////////
-        
+        avoidance(obj);
 
         booster(obj);
 
-        avoidance(obj);
+        avoidance_timer--;
+        if (avoidance_timer == 0)
+        {
+            obj->speed.x = SPEED_MAX_X;
+        }
+
+        if (avoidance_timer < 0)
+        {
+            avoidance_timer = 0;
+        }
        
         // プレイヤー縦方向の移動処理
 
