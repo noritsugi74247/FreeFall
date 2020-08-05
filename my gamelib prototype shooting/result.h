@@ -6,15 +6,14 @@ class Result : public Scene
 {
 public:
     static Result* instance() { return &instance_; }
-
+    RFadeManager* rfadeManager() { return rfadeManager_; }
     void init();
     void update();
     void draw();
     void uninit();
-    RFadeManager* rfadeManager() { return rfadeManager_; }
-
 private:
     static Result instance_;
+
     RFadeManager* rfadeManager_;
 
 public:
@@ -32,5 +31,4 @@ enum  RESULTSTATE
 
 
 };
-
 #endif

@@ -10,6 +10,7 @@ namespace
 
     //------< プレイヤーのアニメデータ >------------------------------------------
     //上方向
+
     AnimeData animefade[] = {
         { &sprfadecircle0, 10 },
         { &sprfadecircle1, 6 },

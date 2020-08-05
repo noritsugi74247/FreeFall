@@ -85,5 +85,6 @@ SpriteData sprfadecircle1 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 1,
 SpriteData sprfadecircle2 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 2, system::SCREEN_HEIGHT * 0, 1920, 1080);
 SpriteData sprfadecircle3 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 3, system::SCREEN_HEIGHT * 0, 1920, 1080);
 SpriteData sprfadecircle4 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 4, system::SCREEN_HEIGHT * 0, 1920, 1080);
+
 SpriteData sprfadecircle5 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 5, system::SCREEN_HEIGHT * 0, 1920, 1080);
 SpriteData sprfadecircle6 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 6, system::SCREEN_HEIGHT * 0, 1920, 1080);

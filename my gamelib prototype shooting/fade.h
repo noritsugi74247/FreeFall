@@ -8,6 +8,7 @@ public:
 
     void move(OBJ2D* obj);
 
+
     static Fade* getInstance()
     {
         static Fade instance;

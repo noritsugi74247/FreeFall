@@ -2,10 +2,12 @@
 #define	INCLUDED_GAME
 
 #include "Player.h"
-#include "Wall.h"
-#include "fade.h"
+#include "block.h"
 #include "scene.h"
-
+#include "map.h"
+#include "fade.h"
+#include "Wall.h"
+//#include <memory>
 //==============================================================================
 //
 //      Gameクラス
@@ -59,15 +61,18 @@ public:
     // ゲッターは後ろに_をつけない
  /*   Player_manager* PL_manager() { return PL_manager_; }*/
     PlayerManager* playerManager() { return playerManager_; }
+    BlockManager* blockManager() { return blockManager_; }
+    MapChip* bgManager() { return bgManager_.get(); }
     WallManager* wallManager() { return wallManager_; }
     FadeManager* fadeManager() { return fadeManager_; }
-
 private:
 
 
     // メンバ変数は後ろに_をつける
     PlayerManager* playerManager_;
+    BlockManager* blockManager_;
     WallManager* wallManager_;
+    std::unique_ptr<MapChip> bgManager_;
     FadeManager* fadeManager_;
     static Game instance_;
 };
@@ -85,7 +90,7 @@ enum  GAMESTATE
     FADEINSTAY,
     FADEIN,
     CHANGE_SCENE,
-  
+
 
 };
 

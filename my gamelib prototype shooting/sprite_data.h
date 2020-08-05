@@ -66,5 +66,6 @@ extern mylib::SpriteData sprfadecircle1;
 extern mylib::SpriteData sprfadecircle2;
 extern mylib::SpriteData sprfadecircle3;
 extern mylib::SpriteData sprfadecircle4;
+
 extern mylib::SpriteData sprfadecircle5;
 extern mylib::SpriteData sprfadecircle6;
