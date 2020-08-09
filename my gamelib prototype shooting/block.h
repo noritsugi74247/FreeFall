@@ -8,9 +8,6 @@ class Block : public MoveAlg
 {
 public:
 	void move(OBJ2D*);
-	
-private:
-    void moveX(OBJ2D*);
 };
 
 
@@ -30,7 +27,7 @@ private:
 	u_int chipnumX, chipnumY;
 public:
 	void init(const char*);
-	void draw();
+	void draw() override;
 };
 
 #endif // !INCLUDED_ENEMY

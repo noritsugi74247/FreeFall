@@ -6,11 +6,11 @@
 class MapChip  : public MoveAlg
 {
 private:
-	VECTOR2 scroll;
 	char** data;
 	const int CHIP_NUM_PER_LINE = 5; // マップチップ画像でチップが横に並んでいる数
 	static constexpr float SCROLL_MERGIN_X = 600.0f;
 	static constexpr float SCROLL_MERGIN_Y = 880.0f;
+	VECTOR2 scroll;
 public:
 	u_int chipnumX, chipnumY;
 	float WIDTH, HEIGHT;

@@ -351,6 +351,17 @@ void Player::move(OBJ2D* obj)
 
 }
 
+void PlayerManager::draw()
+{
+    for (auto& pl : objList)
+    {
+        if (pl.data)
+        {
+            pl.data->draw(pl.position - Game::instance()->bgManager()->getScrollPos(), pl.scale, pl.angle, pl.color);
+        }
+    }
+}
+
 //--------------------------------
 //  è¡ãé
 //--------------------------------

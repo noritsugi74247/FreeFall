@@ -7,14 +7,6 @@
 using namespace mylib;
 Block block;
 EraseBlock eraseblock;
-void Block::moveX(OBJ2D* obj)
-{
-	obj->position.x += obj->speed.x;
-	if (obj->position.x > 640)
-		obj->speed.x = -5;
-	if (obj->position.x < 0)
-		obj->speed.x = 5;
-}
 
 void Block::move(OBJ2D* obj)
 {
@@ -29,7 +21,6 @@ void Block::move(OBJ2D* obj)
 		obj->state++;
 		break;
 	case 1:
-		//moveX(obj);
 		break;
 	case 2:
 		obj->eraseAlg = &eraseblock;
