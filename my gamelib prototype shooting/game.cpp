@@ -34,6 +34,7 @@ void Game::init()
     blockManager_ = new BlockManager;
     wallManager_ = new WallManager;
     bgManager_ = std::make_unique<MapChip>();
+    fadeManager_ = new FadeManager;
     OBJ2D::damage = 0;
 
     flg_count = 0;
@@ -75,7 +76,7 @@ void Game::update()
 
     switch (state)
     {
-    case 0:
+    case GAMESTATE::LOAD:
         //////// 初期設定 ////////
         //if (!tutorial) { state = 4; }
         //else { state++; }
@@ -94,7 +95,7 @@ void Game::update()
 
         state++;
         break;
-    case 1:
+    case GAMESTATE::INIT:
 
         playerManager()->init();
 
@@ -108,20 +109,21 @@ void Game::update()
 
         wallManager()->add(pWallL, VECTOR2(-960 / 2, 1080));
         wallManager()->add(pWallR, VECTOR2(1920 + (960 / 2), 1080));
+
+        fadeManager()->init();
+        fadeManager()->add(pFade, VECTOR2(system::SCREEN_WIDTH / 2, system::SCREEN_HEIGHT));
         state++;
         break;
-    case 2:
+    case GAMESTATE::TITLE_FADEOUT:
 
-        fade -= 1.0f/10.0f;
+        timer++;
 
-        if (fade <= 0)
-        {
-            fade = 0;
-            state++;
-        }
+
+        fadeManager()->update();
+        playerManager()->update();
         break;
 
-    case 3:
+    case GAMESTATE::TITLE:
         playerManager()->update();
 
         if (TRG(0) & PAD_TRG1
@@ -133,13 +135,15 @@ void Game::update()
             TRG(0) & PAD_TRG4
             )
         {
+            fadeManager()->add(pFade, VECTOR2(system::SCREEN_WIDTH / 2, system::SCREEN_HEIGHT));
+            timer = 0;
             state++;
         }
 
 
         break;
 
-    case 4:
+    case GAMESTATE::TITLE_FADEIN:
         fade += 1.0f / 10.0f;
 
         if (fade >= 1)
@@ -150,7 +154,7 @@ void Game::update()
 
         break;
 
-    case 5:
+    case GAMESTATE::STAY:
         timer++;
 
         if (timer >= 120)
@@ -164,7 +168,7 @@ void Game::update()
 
 
 
-    case 6:
+    case GAMESTATE::FADEOUT:
 
         fade -= 1.0f / 10.0f;
 
@@ -175,7 +179,7 @@ void Game::update()
         }
         break;
 
-    case 7:
+    case GAMESTATE::UPDATE:
 
         //　当たり判定の有効化
         judge();
@@ -198,7 +202,7 @@ void Game::update()
 
         break;
 
-    case 8:
+    case GAMESTATE::FADEINSTAY:
         timer++;
 
         if (timer >= 180)
@@ -210,7 +214,7 @@ void Game::update()
         break;
 
 
-    case 9:
+    case GAMESTATE::FADEIN:
         fade += 1.0f / 10.0f;
 
         if (fade >= 1)
@@ -221,7 +225,7 @@ void Game::update()
 
         break;
 
-    case 10:
+    case  GAMESTATE::CHANGE_SCENE:
         Scene::changeScene(Result::instance());
 
         break;
@@ -238,10 +242,16 @@ void Game::draw()
     // 画面クリア
     mylib::clear(VECTOR4(1, 0, 0, 1));
     // プレイヤーの描画
-    sprite_render(BG, 0, 0);
-    if (state <= 4)
+     // プレイヤーの描画
+    if (state >= GAMESTATE::TITLE_FADEOUT)
+    {
+        sprite_render(BG, 0, 0);
+    }
+
+    if (state == GAMESTATE::TITLE_FADEOUT || state == GAMESTATE::TITLE)
     {
         sprite_render(sprTitle, 300, 300);
+
     }
 
     wallManager()->draw();
@@ -251,6 +261,15 @@ void Game::draw()
     blockManager()->draw();
 
     playerManager()->draw();
+
+    fadeManager()->draw();
+
+    if (state == GAMESTATE::INIT || state == GAMESTATE::STAY || state == GAMESTATE::TITLE_FADEOUT && timer < 10
+        || state == GAMESTATE::FADEOUT && timer < 10 || state == GAMESTATE::CHANGE_SCENE)
+    {
+        primitive::rect(0, 0, system::SCREEN_WIDTH, system::SCREEN_HEIGHT,
+            0, 0, 0, 0, 0, 0, 1);
+    }
 
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
@@ -277,6 +296,7 @@ void Game::uninit()
     // 各マネージャの解放
     safe_delete(playerManager_);
     safe_delete(blockManager_);
+    safe_delete(fadeManager_);
     // テクスチャの解放
     texture::releaseAll();
     // 音楽のクリア

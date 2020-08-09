@@ -23,6 +23,7 @@ LoadTexture loadTexture[] = {
     { TEXNO::CHIP,    L"./Data/Maps/map.png",540U },
     { TEXNO::DUMMY,    L"./Data/Images/SICアセット終/枠.png",500U},
       { TEXNO::WALL,    L"./Data/Images/wall.png",    256U },// プレイヤー
+     {TEXNO::FADE,   L"./Data/Images/fadecircle .png",1U},
     { -1, nullptr }	// 終了フラグ
 };
 
@@ -78,3 +79,12 @@ SpriteData sprterrain_block33 = SPRITE_CENTER(TEXNO::CHIP, 64 * 3, 64 * 6, 64, 6
 SpriteData sprterrain_block34 = SPRITE_CENTER(TEXNO::CHIP, 64 * 4, 64 * 6, 64, 64);
 
 SpriteData sprterrain_block35 = SPRITE_CENTER(TEXNO::CHIP, 64 * 0, 64 * 7, 64, 64);
+
+SpriteData sprfadecircle0 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 0, system::SCREEN_HEIGHT * 0, 1920, 1080);
+SpriteData sprfadecircle1 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 1, system::SCREEN_HEIGHT * 0, 1920, 1080);
+SpriteData sprfadecircle2 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 2, system::SCREEN_HEIGHT * 0, 1920, 1080);
+SpriteData sprfadecircle3 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 3, system::SCREEN_HEIGHT * 0, 1920, 1080);
+SpriteData sprfadecircle4 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 4, system::SCREEN_HEIGHT * 0, 1920, 1080);
+
+SpriteData sprfadecircle5 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 5, system::SCREEN_HEIGHT * 0, 1920, 1080);
+SpriteData sprfadecircle6 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 6, system::SCREEN_HEIGHT * 0, 1920, 1080);

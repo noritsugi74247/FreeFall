@@ -10,7 +10,8 @@ enum TEXNO
     PLAYER,
     CHIP,
     DUMMY,
-    WALL
+    WALL,
+    FADE,
 };
 
 extern mylib::LoadTexture loadTexture[];
@@ -58,3 +59,13 @@ extern mylib::SpriteData sprterrain_block32;
 extern mylib::SpriteData sprterrain_block33;
 extern mylib::SpriteData sprterrain_block34;
 extern mylib::SpriteData sprterrain_block35;
+
+
+extern mylib::SpriteData sprfadecircle0;
+extern mylib::SpriteData sprfadecircle1;
+extern mylib::SpriteData sprfadecircle2;
+extern mylib::SpriteData sprfadecircle3;
+extern mylib::SpriteData sprfadecircle4;
+
+extern mylib::SpriteData sprfadecircle5;
+extern mylib::SpriteData sprfadecircle6;
