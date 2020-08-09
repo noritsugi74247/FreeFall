@@ -103,12 +103,12 @@ void RFade::move(OBJ2D* obj)
         // ƒAƒjƒ‚Ì‰Šúİ’è
         switch (Result::instance()->state)
         {
-        case RESULTSTATE::RESILT_FADEOUT:
+        case RESULTSTATE::RESULT_FADEOUT:
             //breakthrough
        
             obj->animeData = animefade;
             break;
-        case RESULTSTATE::RESILT_FADEIN:
+        case RESULTSTATE::RESULT_FADEIN:
       
             obj->animeData = animefadeback;
             break;

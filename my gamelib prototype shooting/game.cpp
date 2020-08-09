@@ -101,7 +101,7 @@ void Game::update()
 
         playerManager()->add(pPlayer, VECTOR2(50, 640));
         
-        //bgManager()->init("./Data/Maps/test.csv"); 
+        // bgManager()->init("./Data/Maps/stage1.csv");
         
         blockManager()->init("./Data/Maps/stage1.csv");
 
@@ -119,8 +119,9 @@ void Game::update()
         timer++;
 
 
-        fadeManager()->update();
+        
         playerManager()->update();
+        fadeManager()->update();
         break;
 
     case GAMESTATE::TITLE:
@@ -144,13 +145,8 @@ void Game::update()
         break;
 
     case GAMESTATE::TITLE_FADEIN:
-        fade += 1.0f / 10.0f;
+        fadeManager()->update();
 
-        if (fade >= 1)
-        {
-            fade = 1;
-            state++;
-        }
 
         break;
 
@@ -161,6 +157,7 @@ void Game::update()
         {
 
             state++;
+            fadeManager()->add(pFade, VECTOR2(system::SCREEN_WIDTH / 2, system::SCREEN_HEIGHT));
             timer = 0;
         }
 
@@ -169,14 +166,9 @@ void Game::update()
 
 
     case GAMESTATE::FADEOUT:
+        timer++;
+        fadeManager()->update();
 
-        fade -= 1.0f / 10.0f;
-
-        if (fade <= 0)
-        {
-            fade = 0;
-            state++;
-        }
         break;
 
     case GAMESTATE::UPDATE:
@@ -209,19 +201,15 @@ void Game::update()
         {
 
             state++;
+            fadeManager()->add(pFade, VECTOR2(system::SCREEN_WIDTH / 2, system::SCREEN_HEIGHT));
         }
 
         break;
 
 
     case GAMESTATE::FADEIN:
-        fade += 1.0f / 10.0f;
+        fadeManager()->update();
 
-        if (fade >= 1)
-        {
-            fade = 1;
-            state++;
-        }
 
         break;
 
@@ -281,11 +269,7 @@ void Game::draw()
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-    if (fade > 0.0f)
-    {
-        primitive::rect(0, 0, system::SCREEN_WIDTH, system::SCREEN_HEIGHT,
-            0, 0, 0, 0, 0, 0, fade);
-    }
+   
 }
 
 //--------------------------------

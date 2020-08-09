@@ -36,6 +36,8 @@ void Block::move(OBJ2D* obj)
 	}
 }
 
+
+
 void BlockManager::init(const char* filename)
 {
 	OBJ2DManager::init();
@@ -115,6 +117,17 @@ void BlockManager::init(const char* filename)
 	}
 	delete[] blockdata;
 	blockdata = nullptr;
+}
+
+void BlockManager::draw()
+{
+	for (auto& it : objList)            // objListの全ての要素をループし、itという名前で各要素にアクセス 
+	{
+		if (it.data)                                       // OBJ2Dのdataメンバにスプライトデータがあれば
+		{
+			it.data->draw(it.position - Game::instance()->bgManager()->getScrollPos(), it.scale, it.angle, it.color);  // dataのdrawメソッドでスプライトを描画する
+		}
+	}
 }
 
 void EraseBlock::erase(OBJ2D* obj)

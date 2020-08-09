@@ -7,7 +7,7 @@
 int APIENTRY wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)// 使用しない変数は記述しない
 {
     SceneManager sceneManager;
-    sceneManager.execute(Title::instance());
+    sceneManager.execute(Game::instance());
 
     return 0;
 }
