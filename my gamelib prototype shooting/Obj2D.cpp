@@ -38,6 +38,7 @@ void OBJ2D::clear()
     timer = 0;
     damageCount = 0;
 
+    score = 0;
     param = 0;
     jumpTimer = 0;
 

@@ -11,6 +11,15 @@ using namespace mylib;
 //******************************************************************************
 extern bool damaged;
 
+typedef struct _SCORE
+{
+    int little = 100; // 後で変更する
+    int middle = 150; // 後で変更する
+    int strong = 200; // 後で変更する
+}SCORE;
+
+SCORE plus;
+
 const float stick = 0.125f;
 //--------------------------------
 //  Y方向移動
@@ -81,21 +90,13 @@ void Player::moveY(OBJ2D* obj)
 }
 
 //--------------------------------
-//  イージング関数
-//--------------------------------
-float Player::easeOutQuad()
-{
-return 1 - (1 - 0.2f) * (1 - 0.2f);
-}
-
-//--------------------------------
 //  回避時横ブースト
 //--------------------------------
 void Player::avoidance(OBJ2D* obj)
 {
     using namespace input;
 
-    if (STATE(0) & PAD_START && avoidance_timer == 0)
+    if (GetAsyncKeyState(VK_SPACE) & 1 && avoidance_timer == 0)
     {
         // まずブースト範囲内のフラグが立ってたら実行しなくていいのでリターンする
         //if (obj->flags & static_cast<int>(Player::BOOSTER::INSIDE_BOOST))
@@ -105,18 +106,20 @@ void Player::avoidance(OBJ2D* obj)
         // ブースト範囲内のフラグが立ってなかったら、
         // 残ったフラグに応じてブースト（加速）させる
 
-        avoidance_timer =30;       //回避ブーストのタイマーを設定する(30フレーム)
 
         switch (obj->flags)
         {
             // 残ったフラグが...ならスピードを設定する。
             case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
+              avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
               obj->speed.x = 15.0f;
               break;
             case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
+              avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
               obj->speed.x = 15.0f;
               break;
             case static_cast<int>(Player::BOOSTER::STRONG_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
+              avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
               obj->speed.x = 15.0f;
               break;
             default:
@@ -249,12 +252,15 @@ void Player::booster(OBJ2D* obj)
         // 残ったフラグが...ならスピードを設定する。
         case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) :
             obj->speed.y = 11.0f;
+            obj->score += plus.little;
             break;
         case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) :
             obj->speed.y = 13.0f;
+            obj->score += plus.middle;
             break;
         case static_cast<int>(Player::BOOSTER::STRONG_BOOST) :
             obj->speed.y = 16.0f;
+            obj->score += plus.strong;
             break;
         default:
             break;
@@ -305,8 +311,6 @@ void Player::move(OBJ2D* obj)
         obj->judgeFlag = true;
         obj->speed.x = SPEED_MAX_X;
         avoidance_timer = 0;
-        player_HP = 5;
-        damaged = false;
      
         obj->state++;
 
@@ -319,7 +323,7 @@ void Player::move(OBJ2D* obj)
         booster(obj);
 
         avoidance_timer--;
-        if (obj->speed.x == SPEED_MAX_X)
+        if (avoidance_timer == 0)
         {
             obj->speed.x = SPEED_MAX_X;
         }
@@ -327,11 +331,6 @@ void Player::move(OBJ2D* obj)
         if (avoidance_timer < 0)
         {
             avoidance_timer = 0;
-        }
-
-        if (obj->speed.x > SPEED_MAX_X)
-        {
-            obj->speed.x += -easeOutQuad();
         }
        
         // プレイヤー縦方向の移動処理
@@ -344,12 +343,6 @@ void Player::move(OBJ2D* obj)
 
         // プレイヤーのエリアチェック
         areaCheck(obj);
-
-        if (damaged == true)
-        {
-            player_HP--;
-            damaged = false;
-        }
 
         break;
     }

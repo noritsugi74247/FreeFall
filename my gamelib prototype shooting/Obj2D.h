@@ -70,6 +70,7 @@ public:
     int                     timer;              // タイマー
     int               damageCount;              // ダメージカウント
 
+    int                     score;              // スコア
     int                     param;              // 汎用パラメータ
     int                     jumpTimer;          // 長押しジャンプタイマー
     int                     flags;              // 各種フラグ用(使い方はplayer.hのplayerクラスを参照)
