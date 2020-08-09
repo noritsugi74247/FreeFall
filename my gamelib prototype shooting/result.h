@@ -5,14 +5,17 @@
 class Result : public Scene
 {
 public:
-    static Result* instance() { return &instance_; }
+    static Result* instance() 
+    { 
+        static Result instance_;
+        return &instance_; 
+    }
     RFadeManager* rfadeManager() { return rfadeManager_; }
     void init();
     void update();
     void draw();
     void uninit();
 private:
-    static Result instance_;
 
     RFadeManager* rfadeManager_;
 
@@ -23,10 +26,10 @@ public:
 
 enum  RESULTSTATE
 {
-    RESILT_LOAD,
-    RESILT_FADEOUT,
-    RESILT_UPDATE,
-    RESILT_FADEIN,
+    RESULT_LOAD,
+    RESULT_FADEOUT,
+    RESULT_UPDATE,
+    RESULT_FADEIN,
     CHANGE_GAME_SCENE,
 
 

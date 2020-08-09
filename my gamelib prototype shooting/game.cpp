@@ -101,9 +101,9 @@ void Game::update()
 
         playerManager()->add(pPlayer, VECTOR2(50, 640));
         
-        bgManager()->init("./Data/Maps/test.csv"); 
+        //bgManager()->init("./Data/Maps/test.csv"); 
         
-        blockManager()->init("./Data/Maps/test.csv");
+        blockManager()->init("./Data/Maps/stage1.csv");
 
         wallManager()->init();
 

@@ -44,34 +44,35 @@ void MapChip::update()
 {
 	// プレイヤーのポインタ取得（確認）
 	auto pl = &(*Game::instance()->playerManager()->getList()->begin());
+	scroll.y += pl->speed.y;
 	// スクロール処理
 	// 右方向のスクロール処理
-	if (scroll.x < pl->position.x + pl->size.x - system::SCREEN_WIDTH + SCROLL_MERGIN_X)
-		scroll.x = pl->position.x + pl->size.x - system::SCREEN_WIDTH + SCROLL_MERGIN_X;
+	//if (scroll.x < pl->position.x + pl->size.x - system::SCREEN_WIDTH + SCROLL_MERGIN_X)
+	//	scroll.x = pl->position.x + pl->size.x - system::SCREEN_WIDTH + SCROLL_MERGIN_X;
 
-	// 左方向のスクロール処理
-	if (scroll.x > pl->position.x - pl->size.x - SCROLL_MERGIN_X)
-		scroll.x = pl->position.x - pl->size.x - SCROLL_MERGIN_X;
+	//// 左方向のスクロール処理
+	//if (scroll.x > pl->position.x - pl->size.x - SCROLL_MERGIN_X)
+	//	scroll.x = pl->position.x - pl->size.x - SCROLL_MERGIN_X;
 
-	// 下方向のスクロール処理
-	if (scroll.y < pl->position.y - system::SCREEN_HEIGHT + SCROLL_MERGIN_Y)
-		scroll.y = pl->position.y - system::SCREEN_HEIGHT + SCROLL_MERGIN_Y;
+	//// 下方向のスクロール処理
+	//if (scroll.y < pl->position.y - system::SCREEN_HEIGHT + SCROLL_MERGIN_Y)
+	//	scroll.y = pl->position.y - system::SCREEN_HEIGHT + SCROLL_MERGIN_Y;
 
-	// 上方向のスクロール処理
-	if (scroll.y > pl->position.y - pl->size.y - SCROLL_MERGIN_Y / 15)
-		scroll.y = pl->position.y - pl->size.y - SCROLL_MERGIN_Y / 15;
+	//// 上方向のスクロール処理
+	//if (scroll.y > pl->position.y - pl->size.y - SCROLL_MERGIN_Y / 15)
+	//	scroll.y = pl->position.y - pl->size.y - SCROLL_MERGIN_Y / 15;
 
-	// エリア制限（右）
-	if (scroll.x > WIDTH - system::SCREEN_WIDTH) scroll.x = WIDTH - system::SCREEN_WIDTH;
+	//// エリア制限（右）
+	//if (scroll.x > WIDTH - system::SCREEN_WIDTH) scroll.x = WIDTH - system::SCREEN_WIDTH;
 
-	// エリア制限（左）
-	if (scroll.x < 0) scroll.x = 0;
+	//// エリア制限（左）
+	//if (scroll.x < 0) scroll.x = 0;
 
-	// エリア制限（下）
-	if (scroll.y > HEIGHT - system::SCREEN_HEIGHT) scroll.y = HEIGHT - system::SCREEN_HEIGHT;
+	//// エリア制限（下）
+	//if (scroll.y > HEIGHT - system::SCREEN_HEIGHT) scroll.y = HEIGHT - system::SCREEN_HEIGHT;
 
-	// エリア制限（上）
-	if (scroll.y < 0) scroll.y = 0;
+	//// エリア制限（上）
+	//if (scroll.y < 0) scroll.y = 0;
 }
 void MapChip::uninit()
 {
@@ -84,7 +85,8 @@ void MapChip::uninit()
 	data = nullptr;
 }
 void MapChip::move(OBJ2D* obj)
-{}
+{
+}
 bool getCSVSize(const char* filepath, u_int* buf_xSize, u_int* buf_ySize)
 {
 	std::ifstream input(filepath); 
@@ -123,8 +125,8 @@ bool MapChip::loadMapData(const char* filename, char** mapData)
 		x = 0;
 		while (std::getline(iss, output, ','))
 		{
-			assert(y < chipnumY);
-			assert(x < chipnumX);
+			//assert(y < chipnumY);
+			//assert(x < chipnumX);
 			mapData[y][x] = static_cast<char>(std::stoi(output));
 			x++;
 		}
@@ -165,7 +167,7 @@ void MapChip::draw(int texno, char** map)
 }
 void MapChip::drawchips()
 {
-	draw(TEXNO::DUMMY, data);
+	//draw(TEXNO::DUMMY, data);
 }
 MapChip::MapChip() : scroll(VECTOR2(0, 0)), data()
 {

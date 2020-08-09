@@ -21,9 +21,8 @@ sprite* BG;
 LoadTexture loadTexture[] = {
     { TEXNO::PLAYER,    L"./Data/Images/hamums.png",    1U },// プレイヤー
     { TEXNO::CHIP,    L"./Data/Maps/map.png",540U },
-    { TEXNO::DUMMY,    L"./Data/Images/SICアセット終/枠.png",500U},
-      { TEXNO::WALL,    L"./Data/Images/wall.png",    256U },// プレイヤー
-     {TEXNO::FADE,   L"./Data/Images/fadecircle .png",1U},
+    { TEXNO::WALL,    L"./Data/Images/wall.png",    256U },// プレイヤー
+    {TEXNO::FADE,   L"./Data/Images/fadecircle .png",1U},
     { -1, nullptr }	// 終了フラグ
 };
 

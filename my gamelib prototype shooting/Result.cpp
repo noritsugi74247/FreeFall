@@ -29,7 +29,7 @@ void Result::update()
 
     switch (state)
     {
-    case RESULTSTATE::RESILT_LOAD:
+    case RESULTSTATE::RESULT_LOAD:
         //////// ‰ŠúÝ’è ////////
         timer = 0;
         texture::load(loadTexture);
@@ -45,14 +45,14 @@ void Result::update()
           //Game::instance()->set_tutorial(1);
 
         break;
-    case RESULTSTATE::RESILT_FADEOUT:
+    case RESULTSTATE::RESULT_FADEOUT:
         timer++;
 
 
         rfadeManager()->update();
 
         break;
-    case RESULTSTATE::RESILT_UPDATE:
+    case RESULTSTATE::RESULT_UPDATE:
         //////// ’ÊíŽž‚Ìˆ— ////////
 
 
@@ -67,7 +67,7 @@ void Result::update()
             state++;  // ƒQ[ƒ€ƒV[ƒ“‚ÉØ‚è‘Ö‚¦
         }
         break;
-    case RESULTSTATE::RESILT_FADEIN:
+    case RESULTSTATE::RESULT_FADEIN:
 
 
 
@@ -95,7 +95,7 @@ void Result::draw()
 
     rfadeManager()->draw();
 
-    if (state == RESULTSTATE::RESILT_LOAD || state == RESULTSTATE::RESILT_FADEOUT && timer < 10
+    if (state == RESULTSTATE::RESULT_LOAD || state == RESULTSTATE::RESULT_FADEOUT && timer < 10
         || state == RESULTSTATE::CHANGE_GAME_SCENE)
     {
         primitive::rect(0, 0, system::SCREEN_WIDTH, system::SCREEN_HEIGHT,
