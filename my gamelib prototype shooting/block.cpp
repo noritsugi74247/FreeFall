@@ -21,7 +21,6 @@ void Block::move(OBJ2D* obj)
 	switch (obj->state)
 	{
 	case 0:
-		obj->data = &sprterrain_block2;
 		obj->color = { 1,1,1,1 };
 		obj->size = { 64,64 };
 		obj->speed = { 5,0 };
@@ -39,13 +38,45 @@ void Block::move(OBJ2D* obj)
 
 void BlockManager::init(const char* filename)
 {
-	MoveAlg* dummy = {}, *dummy2 = {};
 	OBJ2DManager::init();
-	MoveAlg* blocktype[] =
+	SpriteData* blocktype[] =
 	{
-		dummy,
-		dummy2,
-		&block,
+		&sprterrain_block0,
+		&sprterrain_block1,
+		&sprterrain_block2,
+		&sprterrain_block3,
+		&sprterrain_block4,
+		&sprterrain_block5,
+		&sprterrain_block6,
+		&sprterrain_block7,
+		&sprterrain_block8,
+		&sprterrain_block9,
+		&sprterrain_block10,
+		&sprterrain_block11,
+		&sprterrain_block12,
+		&sprterrain_block13,
+		&sprterrain_block14,
+		&sprterrain_block15,
+		&sprterrain_block16,
+		&sprterrain_block17,
+		&sprterrain_block18,
+		&sprterrain_block19,
+		&sprterrain_block20,
+		&sprterrain_block21,
+		&sprterrain_block22,
+		&sprterrain_block23,
+		&sprterrain_block24,
+		&sprterrain_block25,
+		&sprterrain_block26,
+		&sprterrain_block27,
+		&sprterrain_block28,
+		&sprterrain_block29,
+		&sprterrain_block30,
+		&sprterrain_block31,
+		&sprterrain_block32,
+		&sprterrain_block33,
+		&sprterrain_block34,
+		&sprterrain_block35,
 	};
 	char** blockdata;
 	u_int chipNumX = Game::instance()->bgManager()->chipnumX;
@@ -71,11 +102,9 @@ void BlockManager::init(const char* filename)
 		{
 			char index = blockdata[y][x];
 			if (index < 0) continue;
-			add(blocktype[index],
-				VECTOR2(
-					static_cast<float>(x * CHIP_SIZE + CHIP_SIZE / 2),
-					static_cast<float>(y * CHIP_SIZE + CHIP_SIZE / 2))
-			);
+			add(&block,
+				VECTOR2(static_cast<float>(x * CHIP_SIZE + CHIP_SIZE / 2),
+					static_cast<float>(y * CHIP_SIZE + CHIP_SIZE / 2)))->data = blocktype[index];
 		}
 	}
 
