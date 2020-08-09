@@ -81,13 +81,21 @@ void Player::moveY(OBJ2D* obj)
 }
 
 //--------------------------------
+//  イージング関数
+//--------------------------------
+float Player::easeOutQuad()
+{
+return 1 - (1 - 0.2f) * (1 - 0.2f);
+}
+
+//--------------------------------
 //  回避時横ブースト
 //--------------------------------
 void Player::avoidance(OBJ2D* obj)
 {
     using namespace input;
 
-    if (GetAsyncKeyState(VK_SPACE) & 1 && avoidance_timer == 0)
+    if (STATE(0) & PAD_START && avoidance_timer == 0)
     {
         // まずブースト範囲内のフラグが立ってたら実行しなくていいのでリターンする
         //if (obj->flags & static_cast<int>(Player::BOOSTER::INSIDE_BOOST))
@@ -97,7 +105,7 @@ void Player::avoidance(OBJ2D* obj)
         // ブースト範囲内のフラグが立ってなかったら、
         // 残ったフラグに応じてブースト（加速）させる
 
-        avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
+        avoidance_timer =30;       //回避ブーストのタイマーを設定する(30フレーム)
 
         switch (obj->flags)
         {
@@ -297,6 +305,8 @@ void Player::move(OBJ2D* obj)
         obj->judgeFlag = true;
         obj->speed.x = SPEED_MAX_X;
         avoidance_timer = 0;
+        player_HP = 5;
+        damaged = false;
      
         obj->state++;
 
@@ -309,7 +319,7 @@ void Player::move(OBJ2D* obj)
         booster(obj);
 
         avoidance_timer--;
-        if (avoidance_timer == 0)
+        if (obj->speed.x == SPEED_MAX_X)
         {
             obj->speed.x = SPEED_MAX_X;
         }
@@ -317,6 +327,11 @@ void Player::move(OBJ2D* obj)
         if (avoidance_timer < 0)
         {
             avoidance_timer = 0;
+        }
+
+        if (obj->speed.x > SPEED_MAX_X)
+        {
+            obj->speed.x += -easeOutQuad();
         }
        
         // プレイヤー縦方向の移動処理
@@ -329,6 +344,12 @@ void Player::move(OBJ2D* obj)
 
         // プレイヤーのエリアチェック
         areaCheck(obj);
+
+        if (damaged == true)
+        {
+            player_HP--;
+            damaged = false;
+        }
 
         break;
     }

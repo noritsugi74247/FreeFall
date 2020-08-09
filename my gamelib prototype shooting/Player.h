@@ -61,6 +61,7 @@ public:
 private:
 
     float avoidance_timer;      //回避ブーストのタイマー
+    int player_HP;                  //プレイヤーのHP
 
     //TODO_02
     void moveY(OBJ2D*);
@@ -68,6 +69,7 @@ private:
     void areaCheck(OBJ2D*);
     void booster(OBJ2D*);
     void avoidance(OBJ2D*);
+    float easeOutQuad();
 };
 
 // 移動アルゴリズムの実体
