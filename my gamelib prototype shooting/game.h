@@ -7,6 +7,7 @@
 #include "map.h"
 #include "fade.h"
 #include "Wall.h"
+#include "effect.h"
 //#include <memory>
 //==============================================================================
 //
@@ -65,6 +66,7 @@ public:
     MapChip* bgManager() { return bgManager_.get(); }
     WallManager* wallManager() { return wallManager_; }
     FadeManager* fadeManager() { return fadeManager_; }
+    EffectparticleManager* effectparticleManager() { return effectparticleManager_; }
 private:
 
 
@@ -74,6 +76,7 @@ private:
     WallManager* wallManager_;
     std::unique_ptr<MapChip> bgManager_;
     FadeManager* fadeManager_;
+    EffectparticleManager* effectparticleManager_;
     static Game instance_;
 };
 

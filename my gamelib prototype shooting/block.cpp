@@ -21,6 +21,7 @@ void Block::move(OBJ2D* obj)
 		obj->state++;
 		break;
 	case 1:
+
 		break;
 	case 2:
 		obj->eraseAlg = &eraseblock;

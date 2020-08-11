@@ -23,6 +23,7 @@ LoadTexture loadTexture[] = {
     { TEXNO::CHIP,    L"./Data/Maps/map.png",540U },
     { TEXNO::WALL,    L"./Data/Images/wall.png",    256U },// プレイヤー
     {TEXNO::FADE,   L"./Data/Images/fadecircle .png",1U},
+      { TEXNO::BOMB,    L"./Data/Images/bakuex.png",    256U },// プレイヤー
     { -1, nullptr }	// 終了フラグ
 };
 
@@ -87,3 +88,20 @@ SpriteData sprfadecircle4 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 4,
 
 SpriteData sprfadecircle5 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 5, system::SCREEN_HEIGHT * 0, 1920, 1080);
 SpriteData sprfadecircle6 = SPRITE_BOTTOM(TEXNO::FADE, system::SCREEN_WIDTH * 6, system::SCREEN_HEIGHT * 0, 1920, 1080);
+
+SpriteData sprbomb0 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 0, 128 * 0, 128, 128);
+SpriteData sprbomb1 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 1, 128 * 0, 128,128);
+SpriteData sprbomb2 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 2, 128 * 0, 128,128);
+SpriteData sprbomb3 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 3, 128 * 0, 128,128);
+SpriteData sprbomb4 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 0, 128 * 1, 128,128);
+SpriteData sprbomb5 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 1, 128 * 1, 128,128);
+SpriteData sprbomb6 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 2, 128 * 1, 128,128);
+SpriteData sprbomb7 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 3, 128 * 1, 128,128);
+SpriteData sprbomb8 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 0, 128 * 2, 128,128);
+SpriteData sprbomb9 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 1, 128 * 2, 128,128);
+SpriteData sprbomb10 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 2, 128 * 2, 128,128);
+SpriteData sprbomb11 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 3, 128 * 2, 128,128);
+SpriteData sprbomb12 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 0, 128 * 3, 128,128);
+SpriteData sprbomb13 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 1, 128 * 3, 128,128);
+SpriteData sprbomb14 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 2, 128 * 3, 128,128);
+SpriteData sprbomb15 = SPRITE_BOTTOM(TEXNO::BOMB, 128 * 3, 128 * 3, 128,128);

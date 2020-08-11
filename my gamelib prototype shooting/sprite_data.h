@@ -12,6 +12,7 @@ enum TEXNO
     DUMMY,
     WALL,
     FADE,
+    BOMB,
 };
 
 extern mylib::LoadTexture loadTexture[];
@@ -69,3 +70,21 @@ extern mylib::SpriteData sprfadecircle4;
 
 extern mylib::SpriteData sprfadecircle5;
 extern mylib::SpriteData sprfadecircle6;
+
+
+extern mylib::SpriteData sprbomb0;
+extern mylib::SpriteData sprbomb1;
+extern mylib::SpriteData sprbomb2;
+extern mylib::SpriteData sprbomb3;
+extern mylib::SpriteData sprbomb4;
+extern mylib::SpriteData sprbomb5;
+extern mylib::SpriteData sprbomb6;
+extern mylib::SpriteData sprbomb7;
+extern mylib::SpriteData sprbomb8;
+extern mylib::SpriteData sprbomb9;
+extern mylib::SpriteData sprbomb10;
+extern mylib::SpriteData sprbomb11;
+extern mylib::SpriteData sprbomb12;
+extern mylib::SpriteData sprbomb13;
+extern mylib::SpriteData sprbomb14;
+extern mylib::SpriteData sprbomb15;

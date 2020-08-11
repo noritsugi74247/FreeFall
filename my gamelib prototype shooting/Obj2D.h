@@ -106,9 +106,9 @@ public:
     // デストラクタ
     ~OBJ2DManager();
 
-    void init();    // 初期化
-    void update();  // 更新
-    void draw();    // 描画
+   virtual void init();    // 初期化
+   virtual void update();  // 更新
+   virtual void draw();    // 描画
 
     OBJ2D* add(MoveAlg* mvAlg, const VECTOR2& pos = VECTOR2(0, 0)); // objListに新たなOBJ2Dを追加する
     std::list<OBJ2D>* getList() { return &objList; }                // objListを取得する

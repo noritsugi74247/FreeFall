@@ -35,6 +35,7 @@ void Game::init()
     wallManager_ = new WallManager;
     bgManager_ = std::make_unique<MapChip>();
     fadeManager_ = new FadeManager;
+    effectparticleManager_ = new EffectparticleManager;
     OBJ2D::damage = 0;
 
     flg_count = 0;
@@ -103,7 +104,8 @@ void Game::update()
         
         // bgManager()->init("./Data/Maps/stage1.csv");
         
-        blockManager()->init("./Data/Maps/stage1.csv");
+        blockManager()->init("./Data/Maps/test.csv");
+        effectparticleManager()->init();
 
         wallManager()->init();
 
@@ -122,10 +124,12 @@ void Game::update()
         
         playerManager()->update();
         fadeManager()->update();
+        effectparticleManager()->update();
         break;
 
     case GAMESTATE::TITLE:
         playerManager()->update();
+        effectparticleManager()->update();
 
         if (TRG(0) & PAD_TRG1
             ||
@@ -186,6 +190,8 @@ void Game::update()
         bgManager()->update();
 
         boostjudge();
+
+        effectparticleManager()->update();
 
         if (OBJ2D::damage >= 5)
         {
@@ -248,7 +254,10 @@ void Game::draw()
 
     blockManager()->draw();
 
+    effectparticleManager()->draw();
+
     playerManager()->draw();
+
 
     fadeManager()->draw();
 
@@ -259,7 +268,8 @@ void Game::draw()
             0, 0, 0, 0, 0, 0, 1);
     }
 
-    ImGui_ImplDX11_NewFrame();
+    //邪魔だったんでコメント
+   /* ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
@@ -267,7 +277,7 @@ void Game::draw()
     ImGui::DragFloat("fade", &fade);
 
     ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());*/
 
    
 }
@@ -281,6 +291,7 @@ void Game::uninit()
     safe_delete(playerManager_);
     safe_delete(blockManager_);
     safe_delete(fadeManager_);
+    safe_delete(effectparticleManager_);
     // テクスチャの解放
     texture::releaseAll();
     // 音楽のクリア

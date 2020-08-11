@@ -253,14 +253,17 @@ void Player::booster(OBJ2D* obj)
         case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) :
             obj->speed.y = 11.0f;
             obj->score += plus.little;
+            Game::instance()->effectparticleManager()->add(instanceEffect,VECTOR2(obj->position.x,obj->position.y));
             break;
         case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) :
             obj->speed.y = 13.0f;
             obj->score += plus.middle;
+            Game::instance()->effectparticleManager()->add(instanceEffect, VECTOR2(obj->position.x, obj->position.y));
             break;
         case static_cast<int>(Player::BOOSTER::STRONG_BOOST) :
             obj->speed.y = 16.0f;
             obj->score += plus.strong;
+            Game::instance()->effectparticleManager()->add(instanceEffect, VECTOR2(obj->position.x, obj->position.y));
             break;
         default:
             break;
