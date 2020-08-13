@@ -8,6 +8,8 @@
 #include "fade.h"
 #include "Wall.h"
 #include "effect.h"
+#include <ctime>
+#include <chrono>
 //#include <memory>
 //==============================================================================
 //
@@ -67,8 +69,13 @@ public:
     WallManager* wallManager() { return wallManager_; }
     FadeManager* fadeManager() { return fadeManager_; }
     EffectparticleManager* effectparticleManager() { return effectparticleManager_; }
+    
+    //clock_t start, end, time; 
+    std::chrono::system_clock::time_point start, end; // 時間計測の開始時・終了時の数値を保持する変数
+    double elapsed_time;                                // 経過時間を保持する変数
+    static const int MICRO_TO_SECOND = 1000000;         // 1マイクロ秒から1秒に変換するための定数
+    static const int CHANGE_FRAME = 60;                 // ステート遷移時に使用する定数
 private:
-
 
     // メンバ変数は後ろに_をつける
     PlayerManager* playerManager_;

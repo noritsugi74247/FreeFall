@@ -57,7 +57,7 @@ void Game::update()
 {
 
     using namespace input;
-
+    using std::chrono::system_clock;
     // ソフトリセット
     if ((STATE(0) & PAD_SELECT) &&  // 0コンのセレクトボタンが押されている状態で
         (TRG(0) & PAD_START))       // 0コンのスタートボタンが押された瞬間
@@ -114,6 +114,12 @@ void Game::update()
 
         fadeManager()->init();
         fadeManager()->add(pFade, VECTOR2(system::SCREEN_WIDTH / 2, system::SCREEN_HEIGHT));
+        
+        //ctime版。clock_t = int の代入はできるみたい。(そもそもclock_t が longのtypedefだし...)
+        //start = end = time = 0;
+
+        start = end = system_clock::now(); // 開始・終了共に現在の時間を取得し疑似的に初期化。
+        elapsed_time = 0;    // elapsed_time は double型なのでintの 0 で初期化できる。
         state++;
         break;
     case GAMESTATE::TITLE_FADEOUT:
@@ -157,7 +163,7 @@ void Game::update()
     case GAMESTATE::STAY:
         timer++;
 
-        if (timer >= 120)
+        if (timer >= CHANGE_FRAME * 2)
         {
 
             state++;
@@ -172,7 +178,10 @@ void Game::update()
     case GAMESTATE::FADEOUT:
         timer++;
         fadeManager()->update();
-
+        // ctime版。startが0以下なら現在時間を取得。
+      /*  if(start <= 0 )
+            start = clock();*/
+        start = system_clock::now(); // 現在時間を取得してstartに代入する。
         break;
 
     case GAMESTATE::UPDATE:
@@ -201,14 +210,41 @@ void Game::update()
         break;
 
     case GAMESTATE::FADEINSTAY:
+       /* if (end <= 0)
+        {
+            // ctime版。endに現在時間を取得して代入。
+            //timeにはendからstartを引いた時間(経過時間)を代入する。
+            
+            end = clock();
+            time = end - start;
+
+            // timeにはミリ秒(1/1000秒)単位で数値が入っているため、
+            // CLOCKS_PER_SEC で秒単位に変換する。
+            // (例えば、8.301秒が経過したときtimeには "8301"という数値が入っている)
+            // (CLOCKS_PER_SEC は #defineで 1000 と定義されている)
+
+            time /= CLOCKS_PER_SEC; 
+        }*/
+        if (elapsed_time <= 0) // elapsed_timeが一回も更新されてなかったら…
+        {
+            end = system_clock::now(); // 現在時間を取得してendに代入。
+            // 経過時間をマイクロ秒に変換(直接1秒単位に変換してしまうと小数点以下が取れなくなるため)
+            elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+
+            elapsed_time /= MICRO_TO_SECOND; // マイクロ秒から1秒単位に変換する(100万で割ると1秒単位に変換できる)
+
+            // これ以降、elapsed_timeは次のステージなどに移行するまで常に0以外の数値が入っているため更新されない
+            // (最低でも180フレームはこのブロックにいるので、その間過剰に時間が計測されるのを防ぐため)
+        }
         timer++;
 
-        if (timer >= 180)
+        if (timer >= CHANGE_FRAME * 3)
         {
 
             state++;
             fadeManager()->add(pFade, VECTOR2(system::SCREEN_WIDTH / 2, system::SCREEN_HEIGHT));
         }
+       
 
         break;
 
@@ -269,15 +305,16 @@ void Game::draw()
     }
 
     //邪魔だったんでコメント
-   /* ImGui_ImplDX11_NewFrame();
+    ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
 
     ImGui::DragFloat("fade", &fade);
 
+
     ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());*/
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
    
 }
