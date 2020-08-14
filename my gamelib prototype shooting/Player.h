@@ -61,6 +61,9 @@ public:
 private:
 
     float avoidance_timer;      //回避ブーストのタイマー
+    int playerfinisher;          //必殺技ゲージ
+    int finisher_timer;         //必殺技タイマー
+#define SPRITE_BOTTOM(texno,left,top,width,height)	{ (texno),(left),(top),(width),(height),(width)/2,(height)   }  // 画像の足元が中心
 
     //TODO_02
     void moveY(OBJ2D*);

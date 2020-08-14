@@ -19,7 +19,7 @@ sprite* sprEnemy;
 sprite* BG;
 // 2D画像ロードデータ
 LoadTexture loadTexture[] = {
-    { TEXNO::PLAYER,    L"./Data/Images/hamums.png",    1U },// プレイヤー
+    { TEXNO::PLAYER,    L"./Data/Images/playerfinisher.png",    1U },// プレイヤー
     { TEXNO::CHIP,    L"./Data/Maps/map.png",540U },
     { TEXNO::WALL,    L"./Data/Images/wall.png",    256U },// プレイヤー
     {TEXNO::FADE,   L"./Data/Images/fadecircle .png",1U},
@@ -33,7 +33,7 @@ LoadTexture loadTexture[] = {
 #define SPRITE_CENTER(texno,left,top,width,height)	{ (texno),(left),(top),(width),(height),(width)/2,(height)/2 }  // 画像の真ん中が中心
 #define SPRITE_BOTTOM(texno,left,top,width,height)	{ (texno),(left),(top),(width),(height),(width)/2,(height)   }  // 画像の足元が中心
 
-SpriteData sprPlayer_idle0 = SPRITE_BOTTOM(TEXNO::PLAYER, 96 * 0, 96 * 0, 96, 96);
+SpriteData sprPlayer_idle0 = SPRITE_BOTTOM(TEXNO::PLAYER, 64 * 0, 64 * 0, 64, 64);
 SpriteData sprWall = SPRITE_BOTTOM(TEXNO::WALL, 96 * 0, 96 * 0, 960, 1088);
 // マップチップのブロック（ブロックの実体生成に必要）
 SpriteData sprterrain_block0  = SPRITE_CENTER(TEXNO::CHIP, 64 * 0, 64 * 0, 64, 64);

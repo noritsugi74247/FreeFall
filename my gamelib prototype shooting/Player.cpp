@@ -254,16 +254,19 @@ void Player::booster(OBJ2D* obj)
             obj->speed.y = 11.0f;
             obj->score += plus.little;
             Game::instance()->effectparticleManager()->add(instanceEffect,VECTOR2(obj->position.x,obj->position.y));
+            playerfinisher++;
             break;
         case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) :
             obj->speed.y = 13.0f;
             obj->score += plus.middle;
             Game::instance()->effectparticleManager()->add(instanceEffect, VECTOR2(obj->position.x, obj->position.y));
+            playerfinisher++;
             break;
         case static_cast<int>(Player::BOOSTER::STRONG_BOOST) :
             obj->speed.y = 16.0f;
             obj->score += plus.strong;
             Game::instance()->effectparticleManager()->add(instanceEffect, VECTOR2(obj->position.x, obj->position.y));
+            playerfinisher++;
             break;
         default:
             break;
@@ -314,6 +317,7 @@ void Player::move(OBJ2D* obj)
         obj->judgeFlag = true;
         obj->speed.x = SPEED_MAX_X;
         avoidance_timer = 0;
+        playerfinisher = 0;
      
         obj->state++;
 
@@ -340,6 +344,27 @@ void Player::move(OBJ2D* obj)
 
         moveY(obj);
 
+        if (TRG(0) & PAD_TRG4 && playerfinisher == 3)         //  必殺技の処理
+        {
+            obj->speed.y = 20.0f;
+            finisher_timer = 120;
+            playerfinisher = 0;
+        }
+
+        if (finisher_timer > 0)
+        {
+            finisher_timer--;
+            if (finisher_timer < 60)
+            {
+                obj->speed.y -= 0.5f;
+            }
+
+            if (obj->speed.y < 0)
+            {
+                obj->speed.y = 0;
+            }
+        }
+
         // プレイヤー横方向の移動処理
         moveX(obj);
 
@@ -351,7 +376,25 @@ void Player::move(OBJ2D* obj)
     }
 
     // アニメ更新
-
+    switch (playerfinisher)
+    {
+    case 0:
+        sprPlayer_idle0 = SPRITE_BOTTOM(TEXNO::PLAYER, 64 * 0, 64 * 0, 64, 64);
+        obj->data = &sprPlayer_idle0;
+        break;
+    case 1:
+        sprPlayer_idle0 = SPRITE_BOTTOM(TEXNO::PLAYER, 64 * 1, 64 * 0, 64, 64);
+        obj->data = &sprPlayer_idle0;
+        break;
+    case 2 :
+        sprPlayer_idle0 = SPRITE_BOTTOM(TEXNO::PLAYER, 64 * 2, 64 * 0, 64, 64);
+        obj->data = &sprPlayer_idle0;
+        break;
+    case 3 :
+        sprPlayer_idle0 = SPRITE_BOTTOM(TEXNO::PLAYER, 64 * 3, 64 * 0, 64, 64);
+        obj->data = &sprPlayer_idle0;
+        break;
+    }
 }
 
 void PlayerManager::draw()
