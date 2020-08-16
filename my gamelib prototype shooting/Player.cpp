@@ -13,12 +13,28 @@ extern bool damaged;
 
 typedef struct _SCORE
 {
-    int little = 100; // 後で変更する
-    int middle = 150; // 後で変更する
-    int strong = 200; // 後で変更する
+    int little = 100;       // 弱ブースト時に入手するスコア
+    int middle = 150;       // 中ブースト時に入手するスコア
+    int strong = 200;       // 強ブースト時に入手するスコア
 }SCORE;
 
-SCORE plus;
+typedef struct _AVOIDSPD_X
+{
+    float little = 8.0f;    // 弱ブースト時にX方向に加速する際の変化量
+    float middle = 10.0f;   // 中ブースト時にX方向に加速する際の変化量
+    float strong = 12.0f;   // 強ブースト時にX方向に加速する際の変化量
+}AVOIDSPD_X;
+
+typedef struct _AVOIDSPD_Y
+{
+    float little = 11.0f;  // 弱ブースト時にY方向に加速する際の変化量
+    float middle = 13.0f;  // 中ブースト時にY方向に加速する際の変化量
+    float strong = 16.0f;  // 強ブースト時にY方向に加速する際の変化量
+}AVOIDSPD_Y;
+
+SCORE score;
+AVOIDSPD_X avoidX;
+AVOIDSPD_Y avoidY;
 
 const float stick = 0.125f;
 //--------------------------------
@@ -65,7 +81,7 @@ void Player::moveY(OBJ2D* obj)
     if (obj->speed.y > maxSpeed)
     {
         obj->speed.y -= KASOKU;
-        obj->speed.y = min(obj->speed.y,BOOST_MAX);
+        obj->speed.y = (std::min)(obj->speed.y,BOOST_MAX);
     }
     else
     {
@@ -112,15 +128,15 @@ void Player::avoidance(OBJ2D* obj)
             // 残ったフラグが...ならスピードを設定する。
             case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
               avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
-              obj->speed.x = 15.0f;
+              obj->scale.x > 0.0f ? obj->speed.x = avoidX.little : obj->speed.x = -avoidX.little;
               break;
             case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
               avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
-              obj->speed.x = 15.0f;
+              obj->scale.x > 0.0f ? obj->speed.x = avoidX.middle : obj->speed.x = -avoidX.middle;
               break;
             case static_cast<int>(Player::BOOSTER::STRONG_BOOST) + static_cast<int>(Player::BOOSTER::INSIDE_BOOST) :
               avoidance_timer = 30;       //回避ブーストのタイマーを設定する(30フレーム)
-              obj->speed.x = 15.0f;
+              obj->scale.x > 0.0f ? obj->speed.x = avoidX.strong : obj->speed.x = -avoidX.strong;
               break;
             default:
               break;
@@ -172,6 +188,29 @@ void Player::moveX(OBJ2D* obj)
     }
 
     /*--------------------------------------------------------------------------*/
+
+    float maxSpeed = SPEED_MAX_X;
+
+    /* obj->speed.y = (std::max)(obj->speed.y, -maxSpeed);
+     obj->speed.y = (std::min)(obj->speed.y, maxSpeed);*/
+    if (obj->speed.x > maxSpeed)
+    {
+        obj->speed.x -= KASOKU;
+        obj->speed.x = (std::min)(obj->speed.x, BOOST_MAX);
+    }
+    else if (obj->speed.x < -maxSpeed)
+    {
+        obj->speed.x += KASOKU;
+        obj->speed.x = (std::max)(obj->speed.x, -BOOST_MAX);
+    }
+    else
+    {
+        /*  for (int i = 0; i < 2; i++)
+          {
+              obj->flags &= ~static_cast<int>(1 << i);
+          }*/
+        obj->speed.x = clamp(obj->speed.x, -maxSpeed, maxSpeed);
+    }
 
  //   // 左右入力の取り出し
  //
@@ -251,20 +290,20 @@ void Player::booster(OBJ2D* obj)
     {
         // 残ったフラグが...ならスピードを設定する。
         case static_cast<int>(Player::BOOSTER::LITTLE_BOOST) :
-            obj->speed.y = 11.0f;
-            obj->score += plus.little;
+            obj->speed.y = avoidY.little;
+            obj->score += score.little;
             Game::instance()->effectparticleManager()->add(instanceEffect,VECTOR2(obj->position.x,obj->position.y));
             playerfinisher++;
             break;
         case static_cast<int>(Player::BOOSTER::MIDDLE_BOOST) :
-            obj->speed.y = 13.0f;
-            obj->score += plus.middle;
+            obj->speed.y = avoidY.middle;
+            obj->score += score.middle;
             Game::instance()->effectparticleManager()->add(instanceEffect, VECTOR2(obj->position.x, obj->position.y));
             playerfinisher++;
             break;
         case static_cast<int>(Player::BOOSTER::STRONG_BOOST) :
-            obj->speed.y = 16.0f;
-            obj->score += plus.strong;
+            obj->speed.y = avoidY.strong;
+            obj->score += score.strong;
             Game::instance()->effectparticleManager()->add(instanceEffect, VECTOR2(obj->position.x, obj->position.y));
             playerfinisher++;
             break;

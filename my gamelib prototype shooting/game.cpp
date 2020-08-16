@@ -311,8 +311,12 @@ void Game::draw()
 
 
     ImGui::DragFloat("fade", &fade);
-
-
+    if (state == GAMESTATE::UPDATE)
+    {
+        ImGui::DragFloat("player.speed.x", &(playerManager()->getList()->begin()->speed.x));
+        ImGui::DragFloat("player.speed.y", &(playerManager()->getList()->begin()->speed.y));
+        ImGui::DragInt("score", &(playerManager()->getList()->begin()->score));
+    }
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

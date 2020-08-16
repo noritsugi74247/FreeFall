@@ -6,14 +6,27 @@
 bool damaged; // ダメージを受けたかどうか
 typedef struct _Judge
 {
-	int  left = 0; // 矩形の左の座標調整用
-	int  right = 0; // 矩形の右の座標調整用
+	int  left = 0; // 矩形の左の座標調整用       
 	int  top = 0; // 矩形の上の座標調整用
+	int  right = 0; // 矩形の右の座標調整用
 	int  bottom = 0; // 矩形の下の座標調整用
-	int  rate = 0; // 判定する範囲にかける倍率(弱、中、強と分けるときに使ってください)
+
+/* left			  top
+//  ||			  ||
+//  ∇			  ∇
+	***************
+	*			  *
+	*			  *
+	***************
+    △			  △
+	||			  ||
+　bottom		right
+	*/
 }Judge;
 
-Judge rule;
+Judge strong_rule = { 0 , CHIP_SIZE     , 0 , CHIP_SIZE     }; // 弱ブーストの当たり判定設定用
+Judge middle_rule = { 0 , CHIP_SIZE * 2 , 0 , CHIP_SIZE * 2 }; // 中ブーストの当たり判定設定用
+Judge little_rule = { 0 , CHIP_SIZE * 3 , 0 , CHIP_SIZE * 3 }; // 強ブーストの当たり判定設定用
 void judge()
 {
 	// 各種判定を追加
@@ -53,25 +66,26 @@ void judge()
 
 		// 強ブースト用当たり判定
 		mylib::fRECT strongrect =
-		{ block.hitRect.left, //- rule.left,
-		  block.hitRect.top - CHIP_SIZE,// rule.top ,
-		  block.hitRect.right, // - rule.right ,
-		  block.hitRect.bottom - CHIP_SIZE // rule.bottom
+		{ block.hitRect.left	- strong_rule.left,
+		  block.hitRect.top		- strong_rule.top ,
+		  block.hitRect.right	- strong_rule.right ,
+		  block.hitRect.bottom	- strong_rule.bottom
 		};
 
 		// 中ブースト用当たり判定
 		mylib::fRECT middlerect =
-		{ block.hitRect.left,
-		  block.hitRect.top - CHIP_SIZE * 2,
-		  block.hitRect.right,
-		  block.hitRect.bottom - CHIP_SIZE * 2 };
-
+		{ block.hitRect.left	- middle_rule.left,
+		  block.hitRect.top		- middle_rule.top,
+		  block.hitRect.right	- middle_rule.right,
+		  block.hitRect.bottom	- middle_rule.bottom
+		};
 		// 弱ブースト用当たり判定
 		mylib::fRECT littlerect =
-		{ block.hitRect.left,
-		  block.hitRect.top - CHIP_SIZE * 3,
-		  block.hitRect.right,
-		  block.hitRect.bottom - CHIP_SIZE * 3};
+		{ block.hitRect.left	- little_rule.left,
+		  block.hitRect.top		- little_rule.top,
+		  block.hitRect.right	- little_rule.right,
+		  block.hitRect.bottom	- little_rule.bottom
+		};
 
 		if (rectHitCheck(pl->hitRect,strongrect) && 
 			!rectHitCheck(pl->hitRect,middlerect))
@@ -146,22 +160,26 @@ void boostjudge()
 	{
 		if (!block.judgeFlag) continue;
 		mylib::fRECT strongrect =
-		{ block.hitRect.left,
-		  block.hitRect.top - CHIP_SIZE,
-		  block.hitRect.right,
-		  block.hitRect.bottom - CHIP_SIZE };
+		{ block.hitRect.left	- strong_rule.left,
+		  block.hitRect.top		- strong_rule.top ,
+		  block.hitRect.right	- strong_rule.right ,
+		  block.hitRect.bottom	- strong_rule.bottom
+		};
 
+		// 中ブースト用当たり判定
 		mylib::fRECT middlerect =
-		{ block.hitRect.left,
-		  block.hitRect.top - CHIP_SIZE * 2,
-		  block.hitRect.right,
-		  block.hitRect.bottom - CHIP_SIZE * 2 };
-
+		{ block.hitRect.left	- middle_rule.left,
+		  block.hitRect.top		- middle_rule.top,
+		  block.hitRect.right	- middle_rule.right,
+		  block.hitRect.bottom	- middle_rule.bottom
+		};
+		// 弱ブースト用当たり判定
 		mylib::fRECT littlerect =
-		{ block.hitRect.left,
-		  block.hitRect.top - CHIP_SIZE * 3,
-		  block.hitRect.right,
-		  block.hitRect.bottom - CHIP_SIZE * 3 };
+		{ block.hitRect.left	- little_rule.left,
+		  block.hitRect.top		- little_rule.top,
+		  block.hitRect.right	- little_rule.right,
+		  block.hitRect.bottom	- little_rule.bottom
+		};
 
 		if (!rectHitCheck(pl->hitRect, strongrect) &&
 			!rectHitCheck(pl->hitRect, middlerect) &&
